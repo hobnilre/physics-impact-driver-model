@@ -19,12 +19,19 @@ contact approximation with an explicit remainder. Illustrative numerical
 comparisons assess torque pulses, rebound, body motion, signed work and
 frequency-response magnitude and phase. A broader assessment covers contact
 orders one through eight, multiple relaxation times and a flexible output
-boundary. The cubic improves a declared frequency band and some predictions,
-but its stability and pulse accuracy depend on the configuration. Retaining
-socket or bit dynamics can matter more than increasing contact order. Exact
-motor and battery reduction also clarifies hammer preparation. These findings
-distinguish a useful representation from evidence of improved hardware
-performance; no new tool measurements or fits to measured impacts are reported.
+boundary. The cubic retains the passive reference's five states and four contact
+parameters while losing global passivity and sometimes stability. Under declared
+illustrative pulse, motion and work tolerances, first-order and cubic contacts
+pass in 70 and 64 of 108 configurations. A stable adverse case shows why a good
+frequency approximation can still predict a different end to a blow.
+
+When the relaxation components are known, the passive state realization is the
+preferred simulation form. Derivative coefficients remain useful for finite-band
+interpretation and exact observation equations. Separate socket or bit dynamics
+can matter substantially for first-contact joint response and retained energy;
+the reported work excludes later output ringing. A bounded sensitivity exercise
+and explicit scalar initialization clarify the limits. No hardware contact
+ranking or measured accuracy improvement is claimed.
 
 The coefficient notation is defined locally, with a reference to
 [Third- and Higher-Order ODEs](https://github.com/hobnilre/physics-ode-3rd-deg/blob/main/third-and-higher-order-odes.md).
