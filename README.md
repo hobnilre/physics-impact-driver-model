@@ -20,18 +20,21 @@ comparisons assess torque pulses, rebound, body motion, signed work and
 frequency-response magnitude and phase. A broader assessment covers contact
 orders one through eight, multiple relaxation times and a flexible output
 boundary. The cubic retains the passive reference's five states and four contact
-parameters while losing global passivity and sometimes stability. Under declared
-illustrative pulse, motion and work tolerances, first-order and cubic contacts
-pass in 70 and 64 of 108 configurations. A stable adverse case shows why a good
-frequency approximation can still predict a different end to a blow.
+parameters while losing global passivity and sometimes stability. Accuracy
+requirements change the comparison: first-order and cubic contacts pass in 70
+and 64 of 108 configurations at a common normalized tolerance of 0.05, but in
+43 and 49 at 0.01. These exploratory counts include stability failures. A stable
+adverse case shows why a good frequency approximation can still predict a
+different end to a blow.
 
 When the relaxation components are known, the passive state realization is the
 preferred simulation form. Derivative coefficients remain useful for finite-band
 interpretation and exact observation equations. Separate socket or bit dynamics
 can matter substantially for first-contact joint response and retained energy;
-the reported work excludes later output ringing. A bounded sensitivity exercise
-and explicit scalar initialization clarify the limits. No hardware contact
-ranking or measured accuracy improvement is claimed.
+the reported work excludes later output ringing. Exact second-order stability
+and coefficient-interpretation conditions, a bounded sensitivity exercise, and
+explicit scalar initialization clarify the limits. Hardware contact ranking and
+measured accuracy improvement remain unevaluated.
 
 The coefficient notation is defined locally, with a reference to
 [Third- and Higher-Order ODEs](https://github.com/hobnilre/physics-ode-3rd-deg/blob/main/third-and-higher-order-odes.md).

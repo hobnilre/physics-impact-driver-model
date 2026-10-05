@@ -4,7 +4,7 @@ subtitle: "Comparison with established models and assessment of performance"
 author: "Hob Nilre & Bo C. Herlin"
 date: "2026-10-05"
 abstract: |
-  We assess higher-order representations of one hammer–anvil blow against a tightened, compliant joint. Exact scalar observation equations preserve specified component models when forcing, preparation and events are retained. A cubic derivative contact expansion instead approximates a passive relaxation law: it improves a declared low-frequency response band but retains the reference's five evolving states and four contact parameters. It provides no demonstrated reduction in simulation or identification burden. Comparisons with rigid restitution, fitted linear contact and Hunt–Crossley-type contact expose differences in pulse, rebound and signed work. Across 108 additional passive configurations, the cubic is stable in 75; one stable case predicts opposite outgoing body directions and a joint-work error equal to 41.8% of incoming energy. Explicit observable tolerances distinguish acceptable finite-set predictions from frequency agreement alone. A flexible-output example shows that retaining a socket or bit mode can change joint response substantially during contact. When the relaxation components are known, their passive state realization is the preferred simulation form. Derivative coefficients remain useful for finite-band interpretation and exact observation equations; improved hardware prediction requires independent measurements.
+  We assess higher-order representations of one hammer–anvil blow against a tightened, compliant joint. Exact scalar observation equations preserve component models when forcing, preparation and events are retained. A cubic derivative contact expansion approximates a passive relaxation law: it improves a declared low-frequency response band but retains the reference's five states and four contact parameters. Comparisons with rigid restitution, fitted linear contact and Hunt–Crossley-type contact distinguish pulse, rebound and signed work. Across 108 additional passive configurations, the cubic is stable in 75; one stable case predicts opposite outgoing body directions and a joint-work error equal to 41.8% of incoming energy. Accuracy requirements change the finite-set choice: first-order and cubic contacts pass in 70 and 64 configurations at a common normalized tolerance of 0.05, but in 43 and 49 at 0.01. Exact coefficient and second-order stability conditions clarify admissibility. A flexible-output example shows that a socket or bit mode can substantially change joint response during contact. With known relaxation components, their passive state realization remains the preferred simulation form. Derivative coefficients support finite-band interpretation and observation equations; improved hardware prediction requires independent measurements.
 keywords:
   - rotary impact driver
   - higher-order ordinary differential equations
@@ -26,7 +26,7 @@ The proposal considered here is a weighted expansion of contact torque in succes
 
 The principal question is whether the additional terms improve predictions of one blow: contact-torque peak, duration, rebound, hammer and anvil motion, signed work, and frequency-response magnitude and phase. We compare rigid restitution, a switched linear spring–damper, a Hunt–Crossley-type contact and a resolved passive contact with one internal state. All use the same body allocation, joint boundary and incoming physical state. The evaluation is an illustrative constitutive-model comparison. Its reference trajectories are calculated from declared component laws, rather than measured from a tool. Parameter burden and preparation information are part of the comparison.
 
-The coefficient family and the linear assembly's elimination and parameter dependence build on [Nilre and Herlin (2026)][third]. The contribution here is the comparison of initialized contact approximations, release-ended observables and a separately resolved output mode. The resulting recommendation is conditional: use a calibrated low-order contact when its required observables transfer adequately; retain a passive internal-state realization when its components are known and memory matters; use derivative coefficients to interpret a restricted response band or to express an exact observation relation. The cubic does not reduce the five-state reference's state count, and no computational advantage is claimed.
+The coefficient family and the linear assembly's elimination and parameter dependence build on [Nilre and Herlin (2026)][third]. The contribution here is the comparison of initialized contact approximations, release-ended observables and a separately resolved output mode. The assessment asks when additional terms meet a required accuracy and how that benefit trades against stability and state count.
 
 # The physical comparison unit
 \label{sec:boundary}
@@ -271,6 +271,15 @@ $w_0=k_0/k_*$, $w_1=(c_0+k_mT)/c_*$,
 $w_2=-k_mT^2/J_*$ and $w_3=k_mT^3k_* /(J_*c_*)$.
 These weights are derived from four contact parameters. Identifying four unrelated derivative coefficients would instead require an empirical fit and a check of realization.
 
+The inverse coefficient map provides a specific check:
+\begin{equation}
+ k_0=B_0,\qquad T=-\frac{B_3}{B_2},\qquad
+ k_m=-\frac{B_2^3}{B_3^2},\qquad
+ c_0=B_1-\frac{B_2^2}{B_3}.
+ \label{eq:coefficient-inverse}
+\end{equation}
+Substitution into \eqref{eq:cubic-coefficients} proves that a strictly positive one-memory interpretation exists precisely when $B_0>0$, $B_2<0$, $B_3>0$ and $B_1B_3>B_2^2$. These conditions identify Taylor coefficients of the passive rational contact; they do not make the cubic contact passive or guarantee assembly stability. The inverse excludes $B_2=0$ or $B_3=0$; vanishing-memory limits require a separate reduced-order description.
+
 On a fixed active interval the cubic contact coupled to the bodies can be advanced as
 \begin{align}
  B_3\delta'''+(\mu+B_2)\delta''+B_1\delta'+B_0\delta
@@ -378,12 +387,25 @@ The contact impedance is torque per relative angular rate: $Z_3(s)=K_3(s)/s$. Fo
 \end{equation}
 A negative value gives negative mean contact receipt under sustained sinusoidal rate, so this cubic cannot be passive at all frequencies. The rational contact \eqref{eq:rational} has a passive component realization. A polynomial approximation can be useful inside a restricted band without inheriting that property globally.
 
+## Stability depends on contact order
+\label{sec:contact-stability}
+
 Stability of the coupled derivative model is a separate check. Its characteristic polynomial is
 \begin{equation}
  P_N(s)=J_hJ_as^4+J_hs^2K_j(s)
                 +K_N(s)[(J_h+J_a)s^2+K_j(s)].
  \label{eq:truncated-characteristic}
 \end{equation}
+For $N=2$, let $\mathsf L_\delta=\begin{pmatrix}1&-1\\-1&1\end{pmatrix}$ and $\symbf q=(\theta_h,\theta_a)^{\mathsf T}$. The engaged equations are $\mathsf M_2\ddot{\symbf q}+\mathsf C_2\dot{\symbf q}+\mathsf K_2\symbf q=(u,0)^{\mathsf T}$, with
+\begin{align}
+ \mathsf M_2&=\operatorname{diag}(J_h,J_a)-k_mT^2\mathsf L_\delta,
+ &\det\mathsf M_2&=(J_h+J_a)(\mu-k_mT^2),\nonumber\\
+ \mathsf C_2&=(c_0+k_mT)\mathsf L_\delta+\operatorname{diag}(0,c_j),
+ &\mathsf K_2&=k_0\mathsf L_\delta+\operatorname{diag}(0,k_j).
+ \label{eq:second-order-matrices}
+\end{align}
+For positive components, $\mathsf C_2$ and $\mathsf K_2$ are positive definite. If $\mu>k_mT^2$, so is $\mathsf M_2$: the usual quadratic kinetic-plus-elastic form has derivative $-\dot{\symbf q}^{\mathsf T}\mathsf C_2\dot{\symbf q}$ at zero input, and its only invariant zero-loss state is equilibrium. This proves asymptotic stability of the engaged assembly. If $\mu<k_mT^2$, $P_2$ has negative leading coefficient and $P_2(0)=k_0k_j>0$, hence a positive real root. Equality makes the equations singular. In particular, the zero-angle, zero-input incoming preparation would require $(c_0+k_mT)\Omega=0$, incompatible with $\Omega>0$. Thus $\zeta_m=k_mT^2/\mu<1$ is an exact second-order stability criterion in this positive-component domain. The assembled quadratic form does not assign a positive store to the negative-inertance contact term separately.
+
 For $N=4$, the leading term is $-(J_h+J_a)k_mT^4s^6$, while $P_4(0)=k_0k_j>0$. By continuity there is a positive real root. This fourth-order Taylor contact is unstable for every positive parameter set in this assembly. Increasing Taylor order has improved the frequency remainder and simultaneously introduced an inadmissible time-domain mode. A stable rational realization avoids that particular artifact.
 
 # Numerical assessment
@@ -422,6 +444,8 @@ The active state equations and signed work integrals were integrated with an exp
 These are numerical consistency estimates, rather than rigorous global error bounds. The cubic was checked against both body ledgers and the signed contact identity; it has no separately assigned positive physical contact store. The exact algebraic fourth- and fifth-order reductions were checked by direct expansion. A separate initialized, smoothly forced fifth-order calculation agreed with the resolved hammer angle to within $2\times10^{-10}$ angle units. Equivalence follows from the elimination with compatible preparation; the numerical check exercises that construction.
 
 The revised guards leave all nominal and changed-condition observables unchanged at the reported precision. The coefficients and frequency responses are evaluated directly from their declared expressions, with no numerical differentiation of observations. All evaluated cubic assembly roots have negative real part; the least negative real part over the parameter changes is approximately $-0.0190$. This is a finite-configuration stability observation. The nominal fourth-order truncation has a positive real root approximately $28.711/t_s$, in agreement with the analytical sign argument. No material or measurement uncertainty is estimated because no measurements enter this comparison.
+
+\Needspace{25\baselineskip}
 
 ## Pulse, rebound and body motion
 
@@ -479,6 +503,8 @@ The nonlinear model's behavior follows its different constitutive hypothesis and
 
 Table \ref{tab:works} integrates all four signed ports on each nominal model's own active interval. The reference's hammer extraction is approximately $0.271816$ work units, whereas the fitted nonlinear contact gives $0.642967$ despite matching peak and duration. Its different body speeds account for this difference.
 
+\Needspace{11\baselineskip}
+
 | Model | $W_h$ | $W_a$ | $W_c$ | $W_j$ |
 | :-------------------- | ------: | ------: | ------: | ------: |
 | Resolved reference | 0.271816 | 0.045904 | 0.225912 | 0.023156 |
@@ -519,6 +545,8 @@ Writing $x=\omega T$, the cubic remainder and the positive real part of the refe
 \end{equation}
 For \eqref{eq:parameters} and $0\le x\le0.30$, the bound is $0.00486$, or $0.486\%$. It bounds the contact complex error on that band, with no claim about a switched pulse. The actual endpoint error is approximately $0.431\%$.
 
+\Needspace{14\baselineskip}
+
 | $x=\omega T$ | Linear contact magnitude error (%) | Cubic contact magnitude error (%) | Linear contact phase (deg) | Cubic contact phase (deg) |
 | -----------: | ---------------------------------: | --------------------------------: | ------------------------: | -----------------------: |
 | 0.12 | 1.387 | 0.0119 | -0.873 | -0.0016 |
@@ -551,7 +579,7 @@ All derivative coefficients come from these known components. The first-order co
 
 For this domain and the flexible-output comparison, the same order-eight integrator uses relative tolerance $2\times10^{-10}$ and absolute tolerance $2\times10^{-12}$. In dimensionless time, its maximum step is $\min(0.03,0.5/\nu)$, where $\nu=\max(1,\max\lvert\operatorname{Im}\lambda(F)\rvert)$ and $F$ is the active state matrix. The horizon is 60. Peaks use an 801-point mesh followed by bounded searches with time tolerance $10^{-12}$; refinements halve the maximum step, double the mesh intervals and reduce tolerances by sixteen. The nominal method above uses its separately stated step and mesh. An unstable candidate is excluded from pulse integration; a failed integration or absent release would be reported as a failure. All stable candidates and passive references released successfully. Both guards were evaluated. Among the 387 stable reference/candidate contact trajectories, torque reached zero first in 386; the second-order candidate with $J_h=2$, $k_j=0.5$, $c_0=0.02$, $k_m=0.2$, $T=0.8$ instead reached zero deformation at time approximately $8.95572$. Its relative speed there is approximately $-0.11698$. This case lies outside the common 75 configurations because its cubic is unstable. Evaluating deformation as well as torque therefore matters even when the common-subset table is unchanged. All torque-first releases have positive terminal deformation and a negative torque slope.
 
-The assembled first-, second- and third-order Taylor contacts are stable in respectively 108, 96 and 75 configurations. None of the contacts of orders four through eight is stable in this domain. Independent time scaling reproduces all 864 root classifications, with maximum normalized polynomial residual $7.59\times10^{-14}$. The fourth-order instability has the general proof given above; the higher-order counts are finite numerical observations. They do not establish a theorem for every contact or assembly.
+The assembled first-, second- and third-order Taylor contacts are stable in respectively 108, 96 and 75 configurations. The exact second-order criterion in Section \ref{sec:contact-stability} reproduces all 96 stable and 12 unstable classifications. None of the contacts of orders four through eight is stable in this domain. Independent time scaling reproduces all 864 root classifications, with maximum normalized polynomial residual $7.59\times10^{-14}$. The fourth-order instability has the general proof given above; the higher-order counts are finite numerical observations.
 
 \Needspace{11\baselineskip}
 
@@ -570,13 +598,13 @@ The cubic improves contact peak, duration, hammer work and joint work over first
 
 ### A stable cubic can predict a different end to the blow
 
-Consider $J_h=2$, $J_a=k_0=1$, $k_j=0.5$, $c_j=0.08$, $c_0=0.12$, $k_m=0.2$, $T=0.8$ and $\Omega=1$, with zero initial branch store. The cubic is stable but releases early, as Figure \ref{fig:adverse} shows. Table \ref{tab:adverse} compares each model at its own first release.
+For $J_h=2$, $J_a=k_0=1$, $k_j=0.5$, $c_j=0.08$, $c_0=0.12$, $k_m=0.2$, $T=0.8$, $\Omega=1$ and zero initial memory, the stable cubic releases early (Figure \ref{fig:adverse}). Table \ref{tab:adverse} compares the models at their own first releases.
 
-![An adverse stable cubic approximation. Solid curves show the passive reference and dashed curves the cubic. Dotted vertical lines mark the cubic release at 2.61050 and reference release at 7.48418; every trajectory ends at its own event. The body curves are blue for hammer and green for anvil. These are numerical solutions of the declared synthetic models.](figures/adverse.pdf){#fig:adverse width=100%}
+![Adverse configuration: passive reference (solid) and cubic (dashed), ending at their respective releases (dotted lines). Hammer rates are blue; anvil rates green. Numerical solutions of the declared synthetic models.](figures/adverse.pdf){#fig:adverse width=95%}
 
 \FloatBarrier
 
-\Needspace{14\baselineskip}
+\Needspace{12\baselineskip}
 
 | Observable | Passive reference | Cubic |
 | :------------------------------ | -------------: | -------------: |
@@ -609,9 +637,26 @@ For an illustrative decision rule, require relative contact-peak and duration er
 
 : Acceptance under the declared illustrative tolerances. Instability remains a failure in the full-domain denominator; the common subset contains only configurations stable for all three candidates. \label{tab:acceptance}
 
-The first-order comparator is component-derived and distinct from the nominal pulse-fitted linear contact. The same supplied components determine all three approximations. Smaller median errors from extra derivatives have not increased the number passing this combined requirement.
+The first-order comparator is component-derived and distinct from the nominal pulse-fitted linear contact. The same supplied components determine all three approximations. At this tolerance the second-order and cubic accepted sets are identical; first order accepts every one of those 64 configurations and six others.
 
-The stability and acceptance limits cluster strongly by memory time:
+The required accuracy changes that choice. As an exploratory assessment of the same retained predictions, replace $0.05$ by a common normalized tolerance $\varepsilon$: peak and duration relative errors must be at most $\varepsilon$, each body-speed error at most $\varepsilon\Omega$, relative-speed-ratio error at most $\varepsilon$, and each port-work error at most $\varepsilon E_0$. All nine conditions, stability and admissible release remain necessary.
+
+\Needspace{11\baselineskip}
+
+| $\varepsilon$ | First order / 108 | Second order / 108 | Cubic / 108 |
+| ---------: | ---------: | ---------: | ---------: |
+| 0.01 | 43 | 43 | 49 |
+| 0.02 | 52 | 53 | 58 |
+| 0.05 | 70 | 64 | 64 |
+| 0.10 | 78 | 74 | 72 |
+
+: Acceptance at different normalized accuracy requirements. The original $0.05$ rule is retained; other thresholds are exploratory choices on the same finite set, with unstable candidates counted as failures. \label{tab:tolerance-choice}
+
+The cubic therefore accepts more configurations at the two tighter requirements despite its smaller stable domain and extra state. At $\varepsilon=0.01$, first order and cubic share 42 accepted configurations; seven pass only the cubic and one only first order. Thus the comparison is not uniform dominance. These fractions are not hardware success probabilities. The nearest passing and failing stable configurations for each order and threshold were refined using the tighter protocol above: 24 candidate and 21 distinct reference trajectories. Observable changes normalized by $\max(1,\lvert\text{value}\rvert)$ were below $4.45\times10^{-9}$, and changes of the maximum normalized error were below $1.80\times10^{-9}$. The nearest threshold margin exceeded $1.60\times10^{-5}$; every classification and winning release guard was unchanged. This numerical sensitivity check does not make the threshold choices an independent validation experiment.
+
+\Needspace{12\baselineskip}
+
+The stability and acceptance limits at $\varepsilon=0.05$ cluster strongly by memory time:
 
 | $T$ | Configurations | Cubic unstable | First order accepted | Second order accepted | Cubic accepted |
 | ---: | ---------: | ---------: | ---------: | ---------: | ---------: |
@@ -621,7 +666,7 @@ The stability and acceptance limits cluster strongly by memory time:
 
 : Marginal counts at fixed relaxation time, with the other declared factors independently varied. The three stable cubic cases at $T=0.8$ fail the observable criteria.
 
-Memory strength $k_m/k_0=0.2$ and $1.2$ each occurs in 54 configurations; their cubic instability counts are respectively 15 and 18, and their accepted cubic counts 36 and 28. At $k_j/k_0=0.5,2,8$, each with 36 configurations, cubic instability counts are 9,12,12 and acceptance counts 20,22,22. These marginal counts overlap and do not establish independent causal effects. A useful dimensionless memory coordinate is $\lambda_T=T/\sqrt{\mu/k_0}$, which ranges from approximately $0.0530$ to $1.386$ here. The ratio $\zeta_m=k_mT^2/\mu=(k_m/k_0)\lambda_T^2$ measures the second-order coefficient against reduced inertia. It is a diagnostic coordinate, not a sufficient cubic stability test. Use the full assembled polynomial and required observables.
+Memory strength $k_m/k_0=0.2$ and $1.2$ each occurs in 54 configurations; their cubic instability counts are respectively 15 and 18, and their accepted cubic counts at $\varepsilon=0.05$ are 36 and 28. At $k_j/k_0=0.5,2,8$, each with 36 configurations, cubic instability counts are 9,12,12 and acceptance counts 20,22,22. These marginal counts overlap and do not establish independent causal effects. A dimensionless memory coordinate is $\lambda_T=T/\sqrt{\mu/k_0}$, which ranges from approximately $0.0530$ to $1.386$ here. Then $\zeta_m=(k_m/k_0)\lambda_T^2$ gives the exact second-order stability boundary above, but is insufficient for cubic stability. The cubic still requires the full assembled polynomial and observable checks.
 
 \Needspace{13\baselineskip}
 
@@ -637,7 +682,7 @@ For the common 75 configurations, the body and work errors that accompany accept
 
 : Median absolute error, with maximum in parentheses, using the indicated physical normalization. Unlike relative work error, energy-normalized error remains well-defined when reference work is small.
 
-Thus first order suffices for all evaluated fast-memory configurations under this rule. For the slow-memory group, the passive reference is the defensible choice when its components are known. The intervening cases require the specified observable check. None of these counts certifies behavior between the discrete configurations or the operating range of an actual tool.
+At $\varepsilon=0.05$, first order suffices for all evaluated fast-memory configurations. Tighter requirements can favor the cubic within its stable domain. None of these counts certifies behavior between the discrete configurations, robustness of release events in those intervals, or an actual tool's operating range.
 
 ### More than one relaxation time
 
@@ -660,7 +705,7 @@ The added passive reference calculations close their normalized component energy
 # Identification, parameter burden and physical limits
 \label{sec:limits}
 
-A rigid event needs one empirical restitution parameter and the incoming body state. A linear contact needs two contact parameters and four body states. The fixed-exponent nonlinear contact also needs two parameters, with its geometry assumption. The passive relaxation reference needs four contact parameters and an internal preparation in addition to the body states. Its exact fifth-order equation carries the same burden. The derived cubic also uses all four contact parameters and a compatible acceleration; fitting its coefficients independently would add conditioning and realization questions. All models require separate joint information.
+Table \ref{tab:model-choice} gives the state and parameter burdens. Independently fitted cubic coefficients must satisfy \eqref{eq:coefficient-inverse} to admit the stipulated positive one-memory interpretation; fit conditioning and assembled stability remain separate questions. All models require independently characterized joint information.
 
 Measuring only hammer motion makes contact and boundary attribution difficult. Equations \eqref{eq:bodies} show the useful distinction: with known $J_h$ and $u$, hammer acceleration gives $\tau_c$, while synchronized anvil acceleration gives
 $\tau_j=\tau_c-J_a\dot\omega_a$. Joint torque and motion can then be identified separately from contact deformation and relative speed. A fixed-anvil experiment suppresses the boundary motion columns and cannot identify the same moving-joint response. Sensor transfer functions, inertia uncertainty and time synchronization would enter any measured assessment.
@@ -674,15 +719,13 @@ Preparation is varied separately by $z(0)=\pm0.001$ torque units; the cubic rece
 
 To check conditioning of the two-feature nominal fits, let $\symbf{f}=(\log p,\log t_1)$ and differentiate it with respect to the logarithms of the two positive fitted coefficients. Symmetric relative steps $10^{-3}$ and $5\times10^{-4}$ give local Jacobians with singular values approximately $(0.50492,0.03552)$ for the linear fit and $(0.53419,0.16203)$ for the nonlinear fit. Their spectral condition numbers are approximately 14.22 and 3.30. Halving the step changes entries by at most $1.51\times10^{-6}$. The linear peak/duration fit is locally more sensitive in its weak parameter direction, but this is neither a global uniqueness result nor evidence that the nonlinear model predicts changed conditions better. Sensor noise, clock offsets and bandwidth-limited differentiation have not been exercised in an identification experiment; the derivative-noise result above is an analytical scaling law.
 
-Calibration should use one set of blows or measured response conditions. Order selection should use separate conditions, including stability and passivity checks. Final evaluation should change speed and independently characterized joint/contact properties with the retained parameters or a declared parameter law. The present numerical comparison separates nominal pulse calibration, frequency-order assessment and changed-condition evaluation. Its finite conditions and known synthetic reference do not provide statistical evidence about the range of an actual tool.
-
 A bounded first physical assessment would select one tool and contact geometry, then record synchronized hammer and anvil motion and contact or reconstructed torque for single blows against independently characterized tightened joints. Incoming speed would change without silently changing the contact fit; joint preload or attachment would change only with their effective stiffness, loss and slip characterized. Signed torque–rate integrals, outgoing body states and release motion would distinguish similar peak-and-duration fits. Measurement uncertainty would need to include calibration, alignment, sensor dynamics, inertias and differentiation. Use distinct calibration blows, order-selection conditions and final evaluation conditions, with the target observables and uncertainty treatment fixed before evaluation. No such measured comparison is completed here.
 
 There are further limits. The nominal contact reference contains one linear relaxation; a real blow can involve multiple modes, distributed waves, plastic deformation, variable face geometry, friction and microslip. A finite linear derivative law cannot represent those mechanisms globally. A nonlinear law should be assessed against nonlinear evidence, rather than judged solely by agreement with a linear-memory reference. The evaluated incoming speeds are $\Omega/\Omega_0\in\{1/2,1,2\}$, the nominal joint-stiffness range is $k_j/K_0\in\{2,4,8\}$, and its contact-stiffness multipliers are $\{3/4,1,5/4\}$. The additional passive configurations broaden the mathematical comparison, but do not establish an actual tool's operating range, interior behavior or other preparation states.
 
 Finally, the release transfer is known as a model store but its physical destination is unresolved. Run-up, repeated blows, hammer lift and engagement changes need additional hybrid states and inputs. A tightening sequence also needs preload-dependent boundary evolution. Extending derivative order alone supplies none of that information.
 
-# Tool subsystems with a stronger case for higher order
+# Resolved tool subsystems and their higher-order representations
 
 ## Flexible bit or socket and the output joint
 
@@ -767,17 +810,17 @@ This gives a physical interpretation to the retained memory. The higher-order re
 
 ## Choosing a representation for a stated task
 
-For pulse simulation with known relaxation components, retain the passive state model: it preserves preparation and physical stores at the same five-state size as the cubic. An exact scalar equation is useful when an observation relation is required, provided its forcing and state reconstruction are retained. For a limited frequency-response interpretation, derivative coefficients have an explicit remainder and reveal low-frequency moments, but an event-ended prediction also needs an acceptable initialization and all required pulse observables. A calibrated linear contact or first-order approximation remains adequate where its independent predictions meet the stated tolerances. Resolve an output mode when its contribution to the required joint response matters; increasing contact order does not replace it. The motor/battery reduction remains an analytical preparation model, not a demonstrated improvement of the blow calculation.
+For pulse simulation with known relaxation components, retain the passive state model: it preserves preparation and physical stores at the same five-state size and four contact parameters as the cubic. No computational or identification saving has been established for that truncation. Among derivative approximations, select the required observables and tolerances first: first order covers more configurations at $\varepsilon=0.05$, while the cubic covers more at $0.01$ and $0.02$, subject to its smaller stable domain. A calibrated linear contact likewise needs acceptable independent predictions.
+
+Use an exact scalar equation when an observation relation is required, retaining its forcing and state reconstruction. Derivative coefficients can interpret finite-band response and low-frequency moments; switched pulse prediction also requires compatible preparation and release. Resolve an output mode when it affects the required joint response. The motor/battery reduction is an analytical preparation model whose practical accuracy remains unevaluated.
 
 # Conclusion
 
-A weighted higher-order contact law can represent an approximation to eliminated linear contact memory. Its coefficients can be derived from specified components or identified, but their dimensions do not select their values, mechanisms or preparation. Exact fourth- and fifth-order observation equations retain the assembly's behavior when forcing operators, initial derivatives and events are preserved; they establish equivalence rather than an accuracy improvement.
+A weighted derivative law approximates specified contact memory; exact scalar elimination preserves the underlying component model. Coefficient dimensions alone determine neither mechanisms nor preparation. The positive one-memory inverse and the exact second-order stability criterion make two admissibility checks explicit, while cubic stability and passivity remain distinct constraints.
 
-For the illustrative relaxation contact, the cubic expansion improves low-frequency contact magnitude and phase and selected duration-transfer predictions. It leaves noticeable rebound and work errors and does not consistently improve peak torque over a two-parameter calibrated linear contact. Its contact complex error is bounded by $0.486\%$ on the declared $\omega T\le0.30$ band, while the finite pulse still contains an engagement layer and higher-frequency content. The fourth-order Taylor contact is unstable, and the cubic fails a global passivity condition. The rational state model retains the passive realization and exact preparation with the same five evolving states and four contact parameters. It is therefore preferred for simulation when those components are known; no state-count, identification or computational saving has been established for the cubic.
+For the illustrative reference, the cubic's contact complex error is bounded by $0.486\%$ on $\omega T\le0.30$, yet engagement and release can produce large pulse, rebound and work errors. The 108-configuration assessment makes the accuracy tradeoff explicit: first-order, second-order and cubic contacts pass in 70/64/64 configurations at $\varepsilon=0.05$ and 43/43/49 at $0.01$. These exploratory tolerance comparisons retain all instability failures. They support a conditional choice among approximations, with the passive state model preferred when its components are known.
 
-The nonlinear baseline shows that matching nominal peak and duration can conceal large differences in body motion and signed work, particularly after a speed change. That result concerns the chosen linear-memory reference. Broader passive configurations also expose cubic instability and substantial adverse pulse errors despite improved low-band approximation. Under the declared combined observable tolerances, first-order, second-order and cubic approximations pass in respectively 70, 64 and 64 of 108 configurations. All 33 cubic instability rejections occur in the slowest-memory group, where even its three stable cases fail the observable criteria. These finite-set results support retaining the passive realization when memory is material. Further $r$ choices cannot replace missing independent component ratios or relaxation states.
-
-The strongest added numerical case concerns the flexible output boundary, where preserving a separate mode changes first-contact joint torque and retained storage while leaving the contact peak relatively close. Those work comparisons end at each model's release and do not include subsequent output transfer. Motor and battery preparation provide a further analytical application of exact higher order. Establishing predictive performance for an impact driver still requires independent single-blow measurements, a separately characterized joint, quantified uncertainty and an identified release mechanism. Those remain the physical evaluation needed to determine whether the additional terms improve a real tool model.
+Matching peak and duration does not determine signed work or body motion, and the nonlinear comparison applies to the chosen linear-memory reference. A separate output mode can substantially change first-contact joint response and retained storage; those comparisons exclude later output transfer. Independent single-blow measurements, boundary characterization, measurement uncertainty and an identified release mechanism remain necessary to establish predictive performance for a real impact driver.
 
 \appendix
 
@@ -830,7 +873,15 @@ The state dimension $n$ is four for the linear two-body assembly, five for the o
  u^{(\ell)}(0),\qquad j=0,\ldots,n-1,
  \label{eq:general-initialization}
 \end{equation}
-where the sum is empty for $j=0$. The case $j=0$ is the output definition; differentiating the $j$th identity and substituting the state law yields the next one. This proves the formula by induction and specifies every scalar initial derivative without a numerical differentiation of measured angles. For example, fifth-order initialization uses input derivatives through order three. An input jump starts a new smooth interval and requires its own state/event treatment.
+where the sum is empty for $j=0$. The case $j=0$ is the output definition; differentiating the $j$th identity and substituting the state law proves the formula by induction. For hammer angle in these realizations, $\symbf c\symbf b=0$ and $\symbf c\mathsf F\symbf b=1/J_h$. Hence fifth-order initialization needs input derivatives only through order two:
+\begin{equation}
+ \theta_h^{(4)}(0)=\symbf c\mathsf F^4\symbf x_0
+ +\symbf c\mathsf F^3\symbf b\,u(0)
+ +\symbf c\mathsf F^2\symbf b\,\dot u(0)
+ +J_h^{-1}\ddot u(0).
+ \label{eq:fifth-initial-input}
+\end{equation}
+The four- and six-state hammer-angle equations likewise need initial input derivatives through orders one and three, respectively. These preparation requirements differ from the driven forcing operator: the fifth-order equation still contains $u^{(3)}$ during smooth evolution. An input jump starts a new smooth interval and requires separate state/event treatment.
 
 Define $r_j=y^{(j)}-\sum_{\ell=0}^{j-1}\symbf{c}\mathsf{F}^{j-1-\ell}\symbf{b}u^{(\ell)}$ and the observation matrix
 \begin{equation}
@@ -858,6 +909,8 @@ $k_j\theta_b+c_j\omega_b$. These states also give deformation, relative speed,
 all endpoint stores and the signed rates in the port integrals.
 
 The exact-reduction comparisons retain the component realization for physical ports and switching. They demonstrate an observation identity, not a smaller hybrid simulator. A scalar-only implementation is valid only with suitable reconstruction. At the first descending torque or deformation zero, apply the declared release law to the reconstructed or retained state: continue body and joint coordinates, set contact torque to zero, and account for any removed contact store as $R_c$. One must not continue the engaged high-order operator through release or differentiate its gate as an ordinary smooth function.
+
+\clearpage
 
 # References {-}
 
