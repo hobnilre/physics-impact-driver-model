@@ -17,11 +17,14 @@ linear memory, while keeping the output joint separate.
 It derives exact fourth- and fifth-order observation equations and a cubic
 contact approximation with an explicit remainder. Illustrative numerical
 comparisons assess torque pulses, rebound, body motion, signed work and
-frequency-response magnitude and phase. The cubic improves a declared frequency
-band and some duration predictions, but leaves work and rebound errors and does
-not consistently improve peak torque. A higher Taylor truncation introduces an
-unstable mode. These findings distinguish a useful representation from evidence
-of improved hardware performance; no tool measurements are reported.
+frequency-response magnitude and phase. A broader assessment covers contact
+orders one through eight, multiple relaxation times and a flexible output
+boundary. The cubic improves a declared frequency band and some predictions,
+but its stability and pulse accuracy depend on the configuration. Retaining
+socket or bit dynamics can matter more than increasing contact order. Exact
+motor and battery reduction also clarifies hammer preparation. These findings
+distinguish a useful representation from evidence of improved hardware
+performance; no new tool measurements or fits to measured impacts are reported.
 
 The coefficient notation is defined locally, with a reference to
 [Third- and Higher-Order ODEs](https://github.com/hobnilre/physics-ode-3rd-deg/blob/main/third-and-higher-order-odes.md).

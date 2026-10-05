@@ -4,7 +4,7 @@ subtitle: "Comparison with established models and assessment of performance"
 author: "Hob Nilre & Bo C. Herlin"
 date: "2026-10-05"
 abstract: |
-  We develop and assess a higher-order representation of one hammer–anvil blow against a tightened, compliant joint. A weighted derivative contact law is distinguished from an exact scalar equation obtained by eliminating component states. A spring–damper assembly gives an exact fourth-order observation equation; a passive contact with one relaxation state gives a fifth-order equation and a controlled derivative expansion. Both exact reductions retain the physical forcing, compatible initial data and release law. In an illustrative numerical comparison, a cubic contact expansion improves magnitude and phase over a declared low-frequency band, but does not uniformly improve torque peak, rebound or transferred work over a calibrated linear contact. A fourth-order Taylor contact has an unstable mode. A nonlinear contact calibrated to the same nominal peak and duration develops substantial errors when incoming speed changes. Signed port-work integrals and endpoint stores expose differences hidden by pulse matching. The results establish equivalence and approximation limits for specified models; predictive accuracy for an actual tool remains to be measured.
+  We develop and assess a higher-order representation of one hammer–anvil blow against a tightened, compliant joint. A weighted derivative contact law is distinguished from an exact scalar equation obtained by eliminating component states. A spring–damper assembly gives an exact fourth-order observation equation; a passive contact with one relaxation state gives a fifth-order equation and a controlled derivative expansion. Both exact reductions retain the physical forcing, compatible initial data and release law. In an illustrative numerical comparison, a cubic contact expansion improves magnitude and phase over a declared low-frequency band, but does not uniformly improve torque peak, rebound or transferred work over a calibrated linear contact. Across 108 additional passive configurations, the cubic is stable in 75, and Taylor contacts of orders four through eight are unstable in every configuration. Signed port-work integrals and endpoint stores expose differences hidden by pulse matching. A separate flexible-output example shows why retaining socket or bit dynamics can matter more than increasing contact order. Independent component ratios, physical realization and initialization govern the useful representation; predictive accuracy for an actual tool remains to be measured.
 keywords:
   - rotary impact driver
   - higher-order ordinary differential equations
@@ -185,6 +185,53 @@ With zero physical initial states, the hammer mobility and anvil displacement re
  \label{eq:transfer}
 \end{equation}
 Dropping $N$ changes the driven system. The exact fourth-order reduction carries the same six component parameters and the same physical preparation as the resolved baseline. It provides an equivalent representation, with no independent accuracy gain.
+
+The complete parameter dependence also answers whether further choices of $r$ can reveal a missing contribution in this particular assembly. Define
+$h=J_h/J_a$, $\beta=k_c/k_j$, $\rho_j=c_j^2/(J_a k_j)$,
+$\eta=c_j/c_c$, $t_j=J_a/c_j$ and $S_j=c_j^2/J_a$.
+These are four independent dimensionless ratios and two reference scales.
+With $x=t/t_j$, $q=\theta_h/Y$ and $U=u/(S_jY)$ for an angle scale $Y>0$,
+the normalized equation is
+\begin{align}
+ \sum_{k=0}^{4}p_k\frac{\mathrm d^kq}{\mathrm dx^k}
+ &=\frac{1}{h}\left[\frac{\mathrm d^2}{\mathrm dx^2}
+ +(1+\eta^{-1})\frac{\mathrm d}{\mathrm dx}
+ +\frac{\beta+1}{\rho_j}\right]U,\nonumber\\
+ (p_0,p_1,p_2,p_3,p_4)
+ &=\left(\frac{\beta}{h\rho_j^2},
+ \frac{\beta+\eta^{-1}}{h\rho_j},
+ \frac{\beta+1+\beta/h}{\rho_j}+\frac{1}{h\eta},
+ 1+\frac{1+1/h}{\eta},1\right).
+ \label{eq:complete-parameters}
+\end{align}
+Direct substitution into \eqref{eq:quartic} proves the identity for all positive component parameters. This is a complete coefficient map for the stated linear topology. It includes the damping product $c_cc_j$ even when that contribution is small.
+
+An ordinary mixture $S_jt_j^k\sum_r w_{r,k}\rho_j^{-r}$ with constant weights supplies only one ratio. At fixed $\rho_j$ it cannot distinguish independent changes of $h$, $\beta$ or $\eta$ after scaling; allowing any further real $r$ leaves that limitation. Multiplication by $\eta^s$ supplies a second coordinate, but still cannot represent arbitrary inertia and contact changes with universal constant weights. Component laws can supply the remaining dependence as in \eqref{eq:complete-parameters}. Changing the common equation scale also changes coefficient labels and weights, so apparent new support must be checked against the same physical operator. Further derivatives of this exact four-state system obey its recurrence; they do not establish additional physics. Additional physical states or nonlinear component laws would change the question.
+
+For a concrete transferable representation, multiply the physical monic
+equation by $\gamma=\mu^2/k_c$ and use the joint reference triple
+$(J_a,c_j,k_j)$ in \eqref{eq:family}, denoting its coefficients $A^j_{r,k}$.
+Define $\xi=c_c^2/(J_a k_c)$ and $g=h/(1+h)^2$. Then
+$B_k=\sum_{r,s}w_{r,s,k}A^j_{r,k}\eta^s$ reproduces every coefficient of
+\eqref{eq:quartic} with the following derived weights:
+
+| $k$ | $(r,s)$ contributions | Weights in the same order |
+| ---: | :------------------------------ | :------------------------------ |
+| 0 | $(1,0)$ | $g$ |
+| 1 | $(0,0),(1,1)$ | $g,\ g\xi$ |
+| 2 | $(0,0),(0,1),(1,2)$ | $h/(1+h),\ g\xi,\ hg\xi$ |
+| 3 | $(0,1),(0,2)$ | $h\xi/(1+h),\ hg\xi$ |
+| 4 | $(0,2)$ | $hg\xi$ |
+
+: Exact component-dependent weights for the engaged linear assembly, under the declared common equation scale and joint references.
+
+The identities follow by substituting the reference monomials and
+$\mu=J_hJ_a/(J_h+J_a)$. They hold for all positive component values,
+without fitting. The coordinates $(h,\xi,\rho_j,\eta)$ are independent,
+with $\beta=\rho_j/(\xi\eta^2)$. Constant weights are appropriate only
+on a parameter family where their component ratios stay fixed. This
+completes the representation for the specified topology; the weights
+contain the physics that dimensions alone leave undetermined.
 
 ## One passive internal contact state
 
@@ -498,6 +545,45 @@ Contact error can be amplified near an assembly resonance. At $x=0.12$, the fitt
 With \eqref{eq:parameters}, \eqref{eq:nonpassive} becomes negative for
 $x>\sqrt{3/2}$. Moreover the Taylor series reaches its convergence boundary at $x=1$. Neither limit is a hardware bandwidth. Under the optional unit assignment, $x\le0.30$ corresponds to frequencies up to approximately $2.39$ kHz for this illustrative contact. An actual driver requires identification of its relaxation times, other modes, geometry and sensor bandwidth before that conversion has physical significance.
 
+## A broader domain of contact approximations
+
+To check whether the nominal cubic result persists, consider 108 additional dimensionless passive configurations, with $J_a=k_0=1$, $c_j=0.08$, $\Omega=1$ and zero initial memory. Independently let
+$J_h\in\{0.5,2,8\}$, $k_j\in\{0.5,2,8\}$,
+$c_0\in\{0.02,0.12\}$, $k_m\in\{0.2,1.2\}$ and
+$T\in\{0.05,0.2,0.8\}$.
+All derivative coefficients come from these known components. The first-order comparator is $K_1=k_0+(c_0+k_mT)s$, so this assessment uses the same supplied component information without fitting any pulse. Each model uses its own descending torque-zero release. The second-order equation determines its initial acceleration; the cubic uses the physical reference acceleration. Their different engagement layers remain part of the comparison.
+
+The assembled first-, second- and third-order Taylor contacts are stable in respectively 108, 96 and 75 configurations. None of the contacts of orders four through eight is stable in this domain. Independent time scaling reproduces all 864 root classifications, with maximum normalized polynomial residual $7.59\times10^{-14}$. The fourth-order instability has the general proof given above; the higher-order counts are finite numerical observations. They do not establish a theorem for every contact or assembly.
+
+On the common 75 stable configurations, the following errors compare each first-blow prediction with its passive state reference:
+
+| Observable | First order | Second order | Third order |
+| :----------------------- | -------------: | -------------: | -------------: |
+| Contact peak | 0.544 (16.05) | 0.378 (11.45) | 0.349 (12.14) |
+| Duration | 0.096 (10.64) | 0.049 (14.72) | 0.030 (65.12) |
+| Hammer-port work | 0.608 (10.72) | 0.716 (13.49) | 0.697 (72.71) |
+| Joint-port work | 2.394 (38.83) | 1.987 (43.40) | 1.338 (191.58) |
+
+: Median absolute relative error in percent, with maximum in parentheses, over the same 75 configurations. Counts and errors describe this chosen domain, not a distribution of commercial tools.
+
+The cubic improves contact peak, duration, hammer work and joint work over first order in respectively 65, 58, 28 and 68 of these 75 configurations. Thus a smaller median duration or joint-work error coexists with substantial adverse cases. A small reference work can magnify a relative error; the signed nominal absolute works in Section~\ref{sec:assessment} give a complementary scale. Stability and low-band contact accuracy alone do not control an event-ended pulse or its signed work. No positive contact store is assigned to the second- or third-order truncation.
+
+More than one memory introduces further independent time scales. For
+$K=k_0+c_0s+\sum_\ell g_\ell T_\ell s/(1+T_\ell s)$,
+the derivative coefficients contain moments $m_k=\sum_\ell g_\ell T_\ell^k$.
+The positive two-memory example $(g_1,T_1)=(1/2,1)$,
+$(g_2,T_2)=(1/2,3)$ has $m_1=2$, $m_2=5$, $m_3=14$.
+A single memory $(g,T)=(4/5,5/2)$ has the same first two moments but
+$m_3=25/2$. Matching coefficients through second order therefore does not
+identify the memory spectrum. In 27 additional two-memory configurations
+with total strength $0.6$, fast time $\{0.05,0.2,0.8\}$,
+time ratio $\{2,5,20\}$ and fast-branch strength share $\{0.1,0.5,0.9\}$,
+only nine assembled cubic contacts are stable. Their resolved positive
+branch models retain a physical passive realization. A different $r$ at
+fixed references cannot supply the missing relaxation poles.
+
+The added passive reference calculations close their normalized component energy balances within $2.22\times10^{-13}$. Representative refinements change reported observables by at most $6.26\times10^{-10}$ after normalization by $\max(1,|\text{value}|)$. Adverse cases are refined separately. These are numerical consistency checks; the component laws and configurations remain illustrative assumptions.
+
 # Identification, parameter burden and physical limits
 \label{sec:limits}
 
@@ -513,9 +599,90 @@ Calibration should use one set of blows or measured response conditions. Order s
 
 A decisive physical assessment would record synchronized hammer and anvil motion and contact or reconstructed torque for single blows against independently characterized tightened joints. Incoming speed would change without silently changing the contact fit; joint preload or attachment would change only with their effective stiffness, loss and slip characterized. Signed torque–rate integrals, outgoing body states and release motion would distinguish similar peak-and-duration fits. Measurement uncertainty would need to include calibration, alignment, sensor dynamics, inertias and differentiation. No such measured comparison is completed here.
 
-There are further limits. The contact reference contains one linear relaxation; a real blow can involve multiple modes, distributed waves, plastic deformation, variable face geometry, friction and microslip. A finite linear derivative law cannot represent those mechanisms globally. A nonlinear law should be assessed against nonlinear evidence, rather than judged solely by agreement with the present linear-memory reference. The numerical speed range is $\Omega/\Omega_0\in\{1/2,1,2\}$, the joint-stiffness range is $k_j/K_0\in\{2,4,8\}$, and the contact-stiffness multipliers are $\{3/4,1,5/4\}$; interior values and other preparation states remain unevaluated.
+There are further limits. The nominal contact reference contains one linear relaxation; a real blow can involve multiple modes, distributed waves, plastic deformation, variable face geometry, friction and microslip. A finite linear derivative law cannot represent those mechanisms globally. A nonlinear law should be assessed against nonlinear evidence, rather than judged solely by agreement with a linear-memory reference. The calibrated speed range is $\Omega/\Omega_0\in\{1/2,1,2\}$, the nominal joint-stiffness range is $k_j/K_0\in\{2,4,8\}$, and its contact-stiffness multipliers are $\{3/4,1,5/4\}$. The additional passive configurations broaden the mathematical comparison, but do not establish an actual tool's operating range, interior behavior or other preparation states.
 
 Finally, the release transfer is known as a model store but its physical destination is unresolved. Run-up, repeated blows, hammer lift and engagement changes need additional hybrid states and inputs. A tightening sequence also needs preload-dependent boundary evolution. Extending derivative order alone supplies none of that information.
+
+# Tool subsystems with a stronger case for higher order
+
+## Flexible bit or socket and the output joint
+
+The main comparison treats the attachment as rigid with the anvil. If a bit, socket or extension has a relevant torsional mode, it should instead receive a separate inertia $J_s>0$, angle $\theta_b$ and connection
+$K_s(s)=k_s+c_ss$ to the anvil. Here $J_a$ excludes $J_s$.
+Keep the contact deformation $\theta_h-\theta_a$ and joint torque
+$\tau_j=k_j\theta_b+c_j\dot\theta_b$ distinct. The output equations are
+\begin{equation}
+ J_a\ddot\theta_a=\tau_c-\tau_s,\qquad
+ J_s\ddot\theta_b=\tau_s-\tau_j,\qquad
+ \tau_s=k_s(\theta_a-\theta_b)+c_s(\dot\theta_a-\dot\theta_b).
+ \label{eq:flexible-output}
+\end{equation}
+For zero initial states, eliminating $\theta_b$ gives the rational boundary
+\begin{equation}
+ \tau_s(s)=K_b(s)\theta_a(s),\qquad
+ K_b(s)=\frac{K_s(s)[J_ss^2+K_j(s)]}{J_ss^2+K_s(s)+K_j(s)}.
+ \label{eq:rational-boundary}
+\end{equation}
+Nonzero output preparation requires the corresponding initial-state contribution. The boundary denominator exposes an internal mode. Its omission cannot be repaired by relabelling an existing coefficient of the contact law.
+
+For a linear contact, put $A_a=J_as^2+K_c+K_s$ and
+$A_b=J_ss^2+K_s+K_j$. The full observation equation is
+\begin{equation}
+ P_6(D)\theta_h=N_4(D)u,\quad
+ N_4=A_aA_b-K_s^2,\quad
+ P_6=(J_hs^2+K_c)N_4-K_c^2A_b.
+ \label{eq:sixth-order}
+\end{equation}
+It is generally sixth order, with six compatible initial derivatives obtained from the component states. The rigid limit is $K_b\to J_ss^2+K_j$ as $k_s\to\infty$ on a finite frequency band. Only then are the anvil and attachment inertias combined as $J_a+J_s$.
+
+The physical storage now adds
+$J_s\dot\theta_b^2/2+k_s(\theta_a-\theta_b)^2/2$, and the joint store uses $\theta_b$. The exact balance is
+\begin{equation}
+ \dot E=u\omega_h-c_c(\omega_h-\omega_a)^2
+ -c_s(\omega_a-\omega_b)^2-c_j\omega_b^2.
+ \label{eq:flexible-energy}
+\end{equation}
+At separation only the removed contact store belongs to the unresolved release transfer. Socket and joint stores remain. The relevant joint work is now $\int\tau_j\omega_b\,\mathrm dt$.
+
+A comparison with equal supplied component information uses
+$J_h=2$, $J_a=k_c=1$, $c_s=0.04$, $c_j=0.08$,
+$J_s\in\{0.05,0.2,1\}$, $k_s\in\{0.25,1,4,16\}$,
+$k_j\in\{0.5,2,8\}$ and $c_c\in\{0.03,0.15\}$.
+All 72 configurations start with zero angles, hammer speed one and stationary output bodies. Each finite model releases at its own descending contact-torque zero. The comparator combines $J_a+J_s$ rigidly and preserves the same contact and joint laws; no parameters are fitted. Median absolute relative rigid-model errors are $8.15\%$ in contact peak, $10.96\%$ in joint peak, $14.08\%$ in contact duration and $31.03\%$ in joint work. Joint peaks and work here refer to each model's first contact interval, excluding later output ringing.
+
+For $J_s=0.2$, $k_s=1$, $k_j=2$, $c_c=0.03$, Figure~\ref{fig:subsystems} illustrates the boundary response and joint torque. The rigid contact peak differs by only $-3.16\%$, while its joint peak differs by $+40.59\%$ and duration by $-19.41\%$. The flexible connection retains $0.04964$ work units at separation, compared with $0.000280$ in the removed contact spring. Contact-pulse agreement can therefore conceal both a different output pulse and substantial retained output storage.
+
+![A separate flexible output boundary exposes a resonance and changes joint torque, even when the contact peak is similar. Parameters are those of the declared illustration. Torque curves end at each model's separation; both axes use the dimensionless units of the comparison.](figures/subsystems.pdf){#fig:subsystems width=100%}
+
+This is a conditional numerical case for retaining the boundary mode or its exact higher-order representation. It is strongest when the mode affects the required magnitude, phase or port response. It supplies no hardware accuracy gain over the same resolved component model. A rigid output remains a useful approximation where independently measured boundary response supports it. Moreover, [Kretschmer et al. (2026)][friction] found no significant socket-length effect on thread friction and only a small bearing-friction effect at high preload in their tested joints. A transmission benefit cannot be promoted as an established improvement in friction or achieved preload.
+
+## Motor and battery during hammer preparation
+
+Run-up or the interval between blows can require electrical memory separately from the contact. The publisher description of [Öztürk and Yılmaz (2026)][motor] reports an experimentally evaluated battery, motor, transmission and hammer model. [Benazet et al. (2025)][control], in the explicitly cited preprint version, model and control the nonlinear mechanism between impacts. These works motivate separate preparation and impact models; neither validates the present derivative contact coefficients.
+
+For a fixed averaged DC operating mode, an illustrative component model is
+\begin{align}
+ L\dot i&=V-Ri-k_e\omega-\sum_{\ell=1}^n v_\ell,\nonumber\\
+ C_\ell\dot v_\ell&=i-v_\ell/R_\ell,\qquad
+ J\dot\omega=k_ti-b\omega-\tau_L.
+ \label{eq:motor-state}
+\end{align}
+Here $R$ includes series electrical loss, $\tau_L$ is the torque at the declared mechanical load port, and each positive $R_\ell,C_\ell$ represents a polarization branch. All quantities refer to one declared shaft; reflected gearing must transform inertia, torque and speed consistently. With zero initial states,
+\begin{equation}
+ Z_e(s)=Ls+R+\sum_\ell\frac{R_\ell}{1+sR_\ell C_\ell},\qquad
+ [Z_e(s)(Js+b)+k_ek_t]\omega=k_tV-Z_e(s)\tau_L.
+ \label{eq:motor-elimination}
+\end{equation}
+Clearing the branch denominators generally gives order $n+2$ for speed and $n+3$ for angle. Voltage and load-torque forcing operators differ. Distinct branch times and observable coupling are required for that minimal-order interpretation; coincident or hidden modes can reduce it.
+
+For $k_e=k_t$ in compatible SI units, the independently derived component balance is
+$\dot E=Vi-Ri^2-b\omega^2-\tau_L\omega-\sum v_\ell^2/R_\ell$,
+with $E=Li^2/2+J\omega^2/2+\sum C_\ell v_\ell^2/2$.
+This gives a physical interpretation to the retained memory. The higher-order representation can be useful when electrical and mechanical transients both matter for the incoming state. It is an analytical candidate here, rather than a completed tool comparison. Commutation, saturation, controller limits, battery temperature and hammer engagement need their own modes or parameter dependence. A constant-coefficient scalar equation alone does not predict the next collision.
+
+## What the available measurements establish
+
+[Kretschmer, Döllken and Matthiesen (2025)][jointdata] provide a public dataset of M10–M20 impact tightening with different power levels and sockets. Its primary description documents preload, thread torque and bearing torque; the associated [article][friction] states 1 MHz acquisition and 100 kHz filtering. These are valuable joint measurements. Their documented scope does not supply a synchronized hammer/anvil incoming state and angular contact-port record for the comparison in Section~\ref{sec:limits}. The raw dataset is not fitted here, and published joint torque is not substituted for hammer–anvil contact torque. Direct contact ranking, rebound and signed contact-port work consequently remain unevaluated on hardware.
 
 # Conclusion
 
@@ -523,7 +690,9 @@ A weighted higher-order contact law can represent an approximation to eliminated
 
 For the illustrative relaxation contact, the cubic expansion improves low-frequency contact magnitude and phase and selected duration-transfer predictions. It leaves noticeable rebound and work errors and does not consistently improve peak torque over a two-parameter calibrated linear contact. Its contact complex error is bounded by $0.486\%$ on the declared $\omega T\le0.30$ band, while the finite pulse still contains an engagement layer and higher-frequency content. The fourth-order Taylor contact is unstable, and the cubic fails a global passivity condition. The rational state model retains the passive realization and exact preparation.
 
-The nonlinear baseline shows that matching nominal peak and duration can conceal large differences in body motion and signed work, particularly after a speed change. That result concerns the chosen linear-memory reference. Establishing predictive performance for an impact driver requires independent single-blow measurements, a separately characterized joint, quantified uncertainty and an identified release mechanism. Those remain the physical evaluation needed to determine whether the additional terms improve a real tool model.
+The nonlinear baseline shows that matching nominal peak and duration can conceal large differences in body motion and signed work, particularly after a speed change. That result concerns the chosen linear-memory reference. Broader passive configurations also expose cubic instability and substantial adverse pulse errors despite improved low-band approximation. Further $r$ choices cannot replace missing independent component ratios or relaxation states.
+
+The strongest added numerical case concerns the flexible output boundary, where preserving a separate mode changes joint torque and retained storage while leaving the contact peak relatively close. Motor and battery preparation provide a further analytical application of exact higher order. Establishing predictive performance for an impact driver still requires independent single-blow measurements, a separately characterized joint, quantified uncertainty and an identified release mechanism. Those remain the physical evaluation needed to determine whether the additional terms improve a real tool model.
 
 # References {-}
 
@@ -534,6 +703,10 @@ The nonlinear baseline shows that matching nominal peak and duration can conceal
 5. Hunt, K. H., and Crossley, F. R. E. (1975). Coefficient of Restitution Interpreted as Damping in Vibroimpact. *Journal of Applied Mechanics*, **42**(2), 440–445. [doi:10.1115/1.3423596][hunt].
 6. Carvalho, A. S., and Martins, J. M. (2019). Exact restitution and generalizations for the Hunt–Crossley contact model. *Mechanism and Machine Theory*, **139**, 174–194. [Publisher version][carvalho].
 7. Willems, J. C. (1972). Dissipative dynamical systems part I: General theory. *Archive for Rational Mechanics and Analysis*, **45**(5), 321–351. [doi:10.1007/BF00276493][willems].
+8. Kretschmer, T., Doellken, M., Haberkern, P., Frank, N., Leitenberger, F., Albers, A., and Matthiesen, S. (2026). Frictional behavior of bolted joints during impact tightening. *Discover Applied Sciences*, **8**, article 152. [doi:10.1007/s42452-026-08273-1][friction].
+9. Kretschmer, T., Döllken, M., and Matthiesen, S. (2025). *Measurement data of impact tightening process of M10–20 bolted joints*. Karlsruhe Institute of Technology, published 19 November 2025. Dataset. [doi:10.35097/yjdmucmycjkbm09g][jointdata].
+10. Öztürk, B., and Yılmaz, S. (2026). Dynamic modeling and analysis of a battery-powered screwdriver equipped with a hammer mechanism. *Mechatronics*, **116**, article 103483. [doi:10.1016/j.mechatronics.2026.103483][motor].
+11. Benazet, M., Ricca, F., Bralla, D., Zeilinger, M. N., and Carron, A. (2025). Learning-based Approximate Model Predictive Control for an Impact Wrench Tool. Preprint, arXiv:2512.16624v1, 18 December 2025. [Version consulted][control].
 
 [third]: https://github.com/hobnilre/physics-ode-3rd-deg/blob/4bdb25cbf6057a848bf9fba09c98db7c5ddc9e9a/third-and-higher-order-odes.md
 [wettstein]: https://doi.org/10.1007/s42452-021-04149-8
@@ -542,3 +715,7 @@ The nonlinear baseline shows that matching nominal peak and duration can conceal
 [hunt]: https://doi.org/10.1115/1.3423596
 [carvalho]: https://doi.org/10.1016/j.mechmachtheory.2019.03.028
 [willems]: https://doi.org/10.1007/BF00276493
+[friction]: https://doi.org/10.1007/s42452-026-08273-1
+[jointdata]: https://doi.org/10.35097/yjdmucmycjkbm09g
+[motor]: https://doi.org/10.1016/j.mechatronics.2026.103483
+[control]: https://arxiv.org/abs/2512.16624v1
