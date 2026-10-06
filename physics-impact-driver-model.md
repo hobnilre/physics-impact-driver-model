@@ -4,7 +4,7 @@ subtitle: "Comparison with established models and assessment of performance"
 author: "Hob Nilre & Bo C. Herlin"
 date: "2026-10-05"
 abstract: |
-  We assess higher-order representations of one hammer–anvil blow against a tightened, compliant joint. Exact scalar observation equations preserve component models when forcing, preparation and events are retained. A cubic derivative contact expansion approximates a passive relaxation law: it improves a declared low-frequency response band but retains the reference's five states and four contact parameters. Comparisons with rigid restitution, fitted linear contact and Hunt–Crossley-type contact distinguish pulse, rebound and signed work. Across 108 additional passive configurations, the cubic is stable in 75; one stable case predicts opposite outgoing body directions and a joint-work error equal to 41.8% of incoming energy. Accuracy requirements change the finite-set choice: first-order and cubic contacts pass in 70 and 64 configurations at a common normalized tolerance of 0.05, but in 43 and 49 at 0.01. Exact coefficient and second-order stability conditions clarify admissibility. A flexible-output example shows that a socket or bit mode can substantially change joint response during contact. With known relaxation components, their passive state realization remains the preferred simulation form. Derivative coefficients support finite-band interpretation and observation equations; improved hardware prediction requires independent measurements.
+  We assess higher-order representations of one hammer–anvil blow against a tightened, compliant joint. Exact scalar observation equations preserve component models when forcing, preparation and events are retained. A cubic derivative contact expansion approximates a passive relaxation law: it improves a declared low-frequency response band but retains the reference's five states and four contact parameters. Comparisons with rigid restitution, fitted linear contact and Hunt–Crossley-type contact distinguish pulse, rebound and signed work. Across 108 additional passive configurations, the cubic is stable in 75; one stable case predicts opposite outgoing body directions and a joint-work error equal to 41.8% of incoming energy. Accuracy requirements change the finite-set choice: first-order and cubic contacts pass in 70 and 64 configurations at a common normalized tolerance of 0.05, but in 43 and 49 at 0.01. Exact coefficient and second-order stability conditions clarify admissibility. A flexible-output example shows that socket or bit compliance and dynamics can substantially change joint response during contact. With known relaxation components, their passive state realization remains the preferred simulation form. Derivative coefficients support finite-band interpretation and observation equations; improved hardware prediction requires independent measurements.
 keywords:
   - rotary impact driver
   - higher-order ordinary differential equations
@@ -699,6 +699,8 @@ time ratio $\{2,5,20\}$ and fast-branch strength share $\{0.1,0.5,0.9\}$,
 the fixed values are $J_h=2$, $J_a=k_0=1$, $c_0=0.06$, $k_j=4$, $c_j=0.08$, and only nine assembled cubic contacts are stable. Their resolved positive
 branch models retain a physical passive realization. A different $r$ at
 fixed references cannot supply the missing relaxation poles.
+These 27 configurations illustrate the moment and stability questions only;
+no finite-blow pulse, signed-work or tolerance comparison is performed for them.
 
 The added passive reference calculations close their normalized component energy balances within $2.22\times10^{-13}$. Representative refinements change reported observables by at most $6.26\times10^{-10}$ after normalization by $\max(1,|\text{value}|)$. Adverse cases are refined separately. These are numerical consistency checks; the component laws and configurations remain illustrative assumptions.
 
@@ -770,7 +772,20 @@ A comparison with equal supplied component information uses
 $J_h=2$, $J_a=k_c=1$, $c_s=0.04$, $c_j=0.08$,
 $J_s\in\{0.05,0.2,1\}$, $k_s\in\{0.25,1,4,16\}$,
 $k_j\in\{0.5,2,8\}$ and $c_c\in\{0.03,0.15\}$.
-All 72 configurations start with zero angles, hammer speed one and stationary output bodies. Each finite model uses the first descending contact-torque or deformation zero; torque wins in all 72 flexible and rigid pairs. The comparator combines $J_a+J_s$ rigidly and preserves the same contact and joint laws; no parameters are fitted. Median absolute relative rigid-model errors are $8.15\%$ in contact peak, $10.96\%$ in joint peak, $14.08\%$ in contact duration and $31.03\%$ in joint work. Joint peaks and work here refer to each model's first contact interval, excluding later output ringing. They do not compare total work delivered over a common post-release horizon; the retained endpoint energy is reported separately.
+All 72 configurations start with zero angles, hammer speed one and stationary output bodies. Each finite model uses the first descending contact-torque or deformation zero; torque wins in all 72 flexible and rigid pairs. The comparator combines $J_a+J_s$ rigidly and preserves the same contact and joint laws; no parameters are fitted. Table \ref{tab:flexible-errors} reports the error spread against the flexible reference in each condition.
+
+\Needspace{10\baselineskip}
+
+| Observable | Median (%) | Maximum (%) |
+| :------------------------------ | ---------: | ----------: |
+| Contact peak | 8.15 | 73.11 |
+| Joint peak | 10.96 | 435.85 |
+| Contact duration | 14.08 | 193.72 |
+| Joint work | 31.03 | 3255.35 |
+
+: Absolute relative rigid-model errors over the same 72 configurations. Each peak, duration and signed-work integral uses that model's first contact interval. \label{tab:flexible-errors}
+
+Joint peaks and work exclude later output ringing. They do not compare total work delivered over a common post-release horizon; retained endpoint energy is reported separately. As in Section \ref{sec:domain}, a small reference work can magnify relative error. The largest relative joint-work error occurs at $J_s=1$, $k_s=0.25$, $k_j=0.5$, $c_c=0.03$: the flexible and rigid first-contact works are approximately $0.018772$ and $0.629853$. Their absolute difference is $0.611081$ work units, or $61.11\%$ of the incoming energy $E_0=J_h\Omega^2/2=1$. The large percentage therefore accompanies a substantial energy-normalized discrepancy, as well as a small denominator.
 
 For $J_s=0.2$, $k_s=1$, $k_j=2$, $c_c=0.03$, Figure~\ref{fig:subsystems} illustrates the boundary response and joint torque. The rigid contact peak differs by only $-3.16\%$, while its joint peak differs by $+40.59\%$ and duration by $-19.41\%$. The flexible connection retains $0.04964$ work units at separation, compared with $0.000280$ in the removed contact spring. Contact-pulse agreement can therefore conceal both a different output pulse and substantial retained output storage.
 
@@ -778,7 +793,15 @@ For $J_s=0.2$, $k_s=1$, $k_j=2$, $c_c=0.03$, Figure~\ref{fig:subsystems} illustr
 
 \FloatBarrier
 
-This is a conditional numerical case for retaining the boundary mode or its exact higher-order representation during the first contact interval. It is strongest when the mode affects the required magnitude, phase or port response. It supplies no hardware accuracy gain over the same resolved component model. A rigid output remains a useful approximation where independently measured boundary response supports it. Moreover, [Kretschmer et al. (2026)][friction] found no significant socket-length effect on thread friction and only a small bearing-friction effect at high preload in their tested joints. A transmission benefit cannot be promoted as an established improvement in friction or achieved preload.
+For the zero-state boundary response shown in Figure \ref{fig:subsystems}, the rigid approximation is $K_{b,\mathrm{rig}}(s)=J_ss^2+K_j(s)$. Equation \eqref{eq:rational-boundary} gives the exact relative-error identity
+\begin{equation}
+ \frac{K_{b,\mathrm{rig}}(s)}{K_b(s)}-1
+ =\frac{J_ss^2+K_j(s)}{K_s(s)}.
+ \label{eq:boundary-relative-error}
+\end{equation}
+For the illustrated parameters, its magnitude ranges from approximately $25.05\%$ to $1.1396\times10^4\%$ over 401 logarithmically spaced dimensionless angular frequencies $0.05\le\omega\le30$; the maximum occurs at $\omega=30$. The largest absolute phase error $\lvert\arg(K_{b,\mathrm{rig}}/K_b)\rvert$ at these frequencies is approximately $157.34^\circ$. This continuously connected boundary comparison is distinct from the switched pulse. Its low-frequency discrepancy includes omitted static compliance: $K_b(0)=k_sk_j/(k_s+k_j)=2/3$, whereas $K_{b,\mathrm{rig}}(0)=k_j=2$, a relative error of $200\%$. The comparison therefore combines static compliance and dynamic mode effects.
+
+This is a conditional numerical case for retaining output compliance and its mode, or their exact higher-order representation, during the first contact interval. It is strongest when they affect the required magnitude, phase or port response. It supplies no hardware accuracy gain over the same resolved component model. A rigid output remains a useful approximation where independently measured boundary response supports it. Moreover, [Kretschmer et al. (2026)][friction] found no significant socket-length effect on thread friction and only a small bearing-friction effect at high preload in their tested joints. A transmission benefit cannot be promoted as an established improvement in friction or achieved preload.
 
 ## Motor and battery during hammer preparation
 
@@ -812,7 +835,7 @@ This gives a physical interpretation to the retained memory. The higher-order re
 
 For pulse simulation with known relaxation components, retain the passive state model: it preserves preparation and physical stores at the same five-state size and four contact parameters as the cubic. No computational or identification saving has been established for that truncation. Among derivative approximations, select the required observables and tolerances first: first order covers more configurations at $\varepsilon=0.05$, while the cubic covers more at $0.01$ and $0.02$, subject to its smaller stable domain. A calibrated linear contact likewise needs acceptable independent predictions.
 
-Use an exact scalar equation when an observation relation is required, retaining its forcing and state reconstruction. Derivative coefficients can interpret finite-band response and low-frequency moments; switched pulse prediction also requires compatible preparation and release. Resolve an output mode when it affects the required joint response. The motor/battery reduction is an analytical preparation model whose practical accuracy remains unevaluated.
+Use an exact scalar equation when an observation relation is required, retaining its forcing and state reconstruction. Derivative coefficients can interpret finite-band response and low-frequency moments; switched pulse prediction also requires compatible preparation and release. Retain output compliance and resolve its mode when they affect the required joint response. The motor/battery reduction is an analytical preparation model whose practical accuracy remains unevaluated.
 
 # Conclusion
 
@@ -820,7 +843,7 @@ A weighted derivative law approximates specified contact memory; exact scalar el
 
 For the illustrative reference, the cubic's contact complex error is bounded by $0.486\%$ on $\omega T\le0.30$, yet engagement and release can produce large pulse, rebound and work errors. The 108-configuration assessment makes the accuracy tradeoff explicit: first-order, second-order and cubic contacts pass in 70/64/64 configurations at $\varepsilon=0.05$ and 43/43/49 at $0.01$. These exploratory tolerance comparisons retain all instability failures. They support a conditional choice among approximations, with the passive state model preferred when its components are known.
 
-Matching peak and duration does not determine signed work or body motion, and the nonlinear comparison applies to the chosen linear-memory reference. A separate output mode can substantially change first-contact joint response and retained storage; those comparisons exclude later output transfer. Independent single-blow measurements, boundary characterization, measurement uncertainty and an identified release mechanism remain necessary to establish predictive performance for a real impact driver.
+Matching peak and duration does not determine signed work or body motion, and the nonlinear comparison applies to the chosen linear-memory reference. Output compliance and a separate mode can substantially change first-contact joint response and retained storage; those comparisons exclude later output transfer. Independent single-blow measurements, boundary characterization, measurement uncertainty and an identified release mechanism remain necessary to establish predictive performance for a real impact driver.
 
 \appendix
 

@@ -29,9 +29,9 @@ different end to a blow.
 
 When the relaxation components are known, the passive state realization is the
 preferred simulation form. Derivative coefficients remain useful for finite-band
-interpretation and exact observation equations. Separate socket or bit dynamics
-can matter substantially for first-contact joint response and retained energy;
-the reported work excludes later output ringing. Exact second-order stability
+interpretation and exact observation equations. Separate socket or bit compliance
+and dynamics can substantially change first-contact joint response and retained
+energy; the reported work excludes later output ringing. Exact second-order stability
 and coefficient-interpretation conditions, a bounded sensitivity exercise, and
 explicit scalar initialization clarify the limits. Hardware contact ranking and
 measured accuracy improvement remain unevaluated.
