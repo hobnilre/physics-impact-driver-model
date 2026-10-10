@@ -1,56 +1,47 @@
-# A Higher-Order ODE Model for a Rotary Impact Driver
+# Modeling a Single Rotary Impact
 
-*Comparison with established models and assessment of performance*
+*Synthesized coefficients, an unknown hammer component, and COP*
 
 Hob Nilre & Bo C. Herlin
 
-Read the [article](physics-impact-driver-model.md) or the
-[PDF](physics-impact-driver-model.pdf).
+[Read the article](physics-impact-driver-model.pdf) · [Manuscript](physics-impact-driver-model.md)
 
 ## What this article adds, and why it matters
 
-Can higher derivatives improve the model of one hammer–anvil blow against a
-tightened fastener? This article compares rigid restitution, switched linear
-contact, a Hunt–Crossley-type nonlinear contact and a contact with resolved
-linear memory, while keeping the output joint separate.
+The article models one hammer–anvil collision against a tightened joint. It
+constructs third- and fourth-derivative torque coefficients and treats their
+contribution as an unknown component inside the hammer. Ordinary linear and
+nonlinear contacts provide comparisons. Signed torque–speed integrals give
+anvil receipt, joint work, the unknown component's work and apparent COP.
 
-It derives exact fourth- and fifth-order observation equations and a cubic
-contact approximation with an explicit remainder. Illustrative numerical
-comparisons assess torque pulses, rebound, body motion, signed work and
-frequency-response magnitude and phase. A broader assessment covers contact
-orders one through eight, multiple relaxation times and a flexible output
-boundary. The cubic retains the passive reference's five states and four contact
-parameters while losing global passivity and sometimes stability. Accuracy
-requirements change the comparison: first-order and cubic contacts pass in 70
-and 64 of 108 configurations at a common normalized tolerance of 0.05, but in
-43 and 49 at 0.01. These exploratory counts include stability failures. A stable
-adverse case shows why a good frequency approximation can still predict a
-different end to a blow.
+A separate order comparison explains why fourth order recovers collision
+features missed by lower-order scalar models. Worked impacts show how supplied
+work can strengthen rebound or reach the joint, including a stated case with
+apparent COP above one. Boundary conditions, prepared higher-order states,
+contact release and a growing mode are included in the interpretation.
 
-When the relaxation components are known, the passive state realization is the
-preferred simulation form. Derivative coefficients remain useful for finite-band
-interpretation and exact observation equations. Separate socket or bit compliance
-and dynamics can substantially change first-contact joint response and retained
-energy; the reported work excludes later output ringing. Exact second-order stability
-and coefficient-interpretation conditions, a bounded sensitivity exercise, and
-explicit scalar initialization clarify the limits. Hardware contact ranking and
-measured accuracy improvement remain unevaluated.
+The construction and energy convention follow two companion articles:
 
-The coefficient notation is defined locally, with a reference to
-[Third- and Higher-Order ODEs](https://github.com/hobnilre/physics-ode-3rd-deg/blob/main/third-and-higher-order-odes.md).
+- [ODE Coefficient Synthesis](https://github.com/hobnilre/physics-ode-coefficient-synthesis)
+- [Energy Ledgers for Forced Harmonic ODEs](https://github.com/hobnilre/physics-ode-energy)
 
-## Build
+## Build the PDF
 
-Run `make pdf` to build `physics-impact-driver-model.pdf`. Install GNU Make,
-GNU Coreutils, Pandoc, XeLaTeX and TeX Gyre fonts, with the LaTeX packages used
-by the preambles and the standalone TikZ/PGFPlots figures.
+Install GNU Make, Pandoc, XeLaTeX with TikZ/PGFPlots, and TeX Gyre fonts. Then run:
 
-All publication build inputs are local. The default scratch directory is
-ignored `build/`; `BUILD_DIR=/absolute/path` selects another location.
-`make clean` removes scratch files and retains the article PDF and figure assets.
-Figure sources contain the plotted illustrative results needed for the build.
+```sh
+make pdf
+```
 
-The first-version date is pinned in the manuscript and `ARTICLE_DATE` in the
-Makefile. The build prints the PDF creation time in UTC above the repository link.
-Article-specific LaTeX belongs in `preamble-local.tex`. Shared typography is
-installed in `article-style.yaml`, `preamble.tex` and `figures/figure-style.tex`.
+Figures are built from the included TeX sources. Intermediate files go in the
+ignored `build/` directory; no private research or external project is required.
+Use `make -B pdf` to force a rebuild and `make clean` to remove intermediates.
+The first-version date is 2026-10-05. The PDF creation timestamp records the
+actual rebuild time.
+
+<!-- article-tools:translations:start -->
+## Translations
+
+- Svenska: [PDF](sv/physics-impact-driver-model-sv.pdf) · [Markdown](sv/physics-impact-driver-model-sv.md)
+
+<!-- article-tools:translations:end -->

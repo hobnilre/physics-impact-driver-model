@@ -33,3 +33,5 @@ figures/%.pdf: figures/%.tex $(FIG_INPUTS)
 
 clean:
 	rm -rf -- "$(BUILD_ABS)"
+
+-include translations.mk
